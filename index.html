@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Long Nguyen | Filmmaker, Photographer & Video Editor</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0A0A0A',
+            charcoal: '#121214',
+            surface: '#18181B',
+            cinema: '#FF5A1F',
+            amberGlow: '#F59E0B',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+            accent: ['Syne', 'sans-serif'],
+          },
+          backgroundImage: {
+            'cinema-gradient': 'linear-gradient(135deg, #FF5A1F 0%, #F59E0B 100%)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0A0A0A;
+      color: #F4F4F5;
+      overflow-x: hidden;
+    }
+
+    /* Hiệu ứng hạt Film Grain nhẹ */
+    .film-grain {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0A0A0A; }
+    ::-webkit-scrollbar-thumb { background: #27272A; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF5A1F; }
+
+    /* Hiệu ứng glassmorphism */
+    .glass-nav {
+      background: rgba(10, 10, 10, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .bento-card {
+      background: linear-gradient(180deg, rgba(24, 24, 27, 0.9) 0%, rgba(18, 18, 20, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .bento-card:hover {
+      border-color: rgba(255, 90, 31, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -15px rgba(255, 90, 31, 0.12);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-cinema selection:text-white">
+
+  <!-- Film Grain Overlay -->
+  <div class="film-grain"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="fixed top-0 left-0 right-0 z-40 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-lg bg-cinema-gradient flex items-center justify-center text-black font-accent font-extrabold text-lg shadow-lg shadow-cinema/25 group-hover:scale-105 transition-transform">
+          LN
+        </div>
+        <div>
+          <span class="font-display font-bold text-white tracking-tight text-lg block leading-none">LONG NGUYEN</span>
+          <span class="text-[11px] uppercase tracking-[0.2em] text-zinc-400 font-medium">Visual & Media</span>
+        </div>
+      </a>
+
+      <!-- Desktop Menu với Dropdown -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-300">
+        
+        <!-- Dropdown Dự án (Thương hiệu & Hình ảnh) -->
+        <div class="relative group py-2">
+          <button onclick="scrollToProjects('all')" class="flex items-center gap-1.5 hover:text-white transition-colors focus:outline-none">
+            <span>Dự án</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-zinc-400 group-hover:text-cinema group-hover:rotate-180 transition-transform duration-200"></i>
+          </button>
+          
+          <!-- Dropdown Menu Items -->
+          <div class="absolute left-0 top-full pt-2 w-72 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50">
+            <div class="bg-[#161618] border border-zinc-800/90 rounded-2xl p-2 shadow-2xl shadow-black/80 backdrop-blur-xl max-h-[80vh] overflow-y-auto">
+              <button onclick="scrollToProjects('all')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-white/5 flex items-center justify-between transition-colors">
+                <span>Tất cả dự án</span>
+                <span class="text-[11px] text-cinema">All</span>
+              </button>
+
+              <div class="px-3.5 pt-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500">Thương hiệu hợp tác (Video)</div>
+              
+              <button onclick="scrollToProjects('neymarsport')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="clapperboard" class="w-3.5 h-3.5 text-cinema shrink-0"></i>
+                <span>NEYMARSPORT</span>
+              </button>
+              <button onclick="scrollToProjects('thaco')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="truck" class="w-3.5 h-3.5 text-cinema shrink-0"></i>
+                <span>THACO AUTO</span>
+              </button>
+              <button onclick="scrollToProjects('vietjet')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="plane" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+                <span>VIETJET AIR</span>
+              </button>
+              <button onclick="scrollToProjects('ducati')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="flame" class="w-3.5 h-3.5 text-red-500 shrink-0"></i>
+                <span>DUCATI VIỆT NAM</span>
+              </button>
+              <button onclick="scrollToProjects('vutrudaihuu')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+                <span>VŨ TRỤ ĐẠI HỮU</span>
+              </button>
+              <button onclick="scrollToProjects('bepchethai')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-400 shrink-0"></i>
+                <span>BẾP CHÈ THÁI</span>
+              </button>
+              <button onclick="scrollToProjects('nhakhoabik')" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-medium text-zinc-300 hover:text-white hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-sky-400 shrink-0"></i>
+                <span>NHA KHOA BIK</span>
+              </button>
+
+              <div class="my-1.5 border-t border-zinc-800"></div>
+              <div class="px-3.5 pt-1 pb-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500">Nhiếp ảnh</div>
+
+              <button onclick="scrollToProjects('photo')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-400 hover:bg-white/5 flex items-center gap-2.5 transition-colors">
+                <i data-lucide="camera" class="w-4 h-4 shrink-0"></i>
+                <span>Dự Án Hình Ảnh (Sự kiện & Menu)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <a href="#gear" class="hover:text-white transition-colors">Thiết bị & Phần mềm</a>
+        <a href="#about" class="hover:text-white transition-colors">Về tôi</a>
+      </nav>
+
+      <!-- CTA Button -->
+      <div class="hidden md:flex items-center gap-3">
+        <a href="tel:0359011212" class="px-5 py-2.5 rounded-full bg-white text-black font-display font-bold text-sm hover:bg-cinema hover:text-white transition-all duration-300 shadow-lg">
+          0359011212
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-zinc-300 hover:text-white">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu (Accordion) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-charcoal border-b border-zinc-800 px-6 py-5 space-y-3 max-h-[85vh] overflow-y-auto">
+      
+      <!-- Mobile Accordion: Dự án -->
+      <div>
+        <button onclick="toggleMobileSubmenu('mob-projects-sub', 'mob-projects-icon')" class="w-full flex items-center justify-between py-2 text-zinc-200 font-medium">
+          <span>Dự án</span>
+          <i id="mob-projects-icon" data-lucide="chevron-down" class="w-4 h-4 text-zinc-400 transition-transform duration-200"></i>
+        </button>
+        <div id="mob-projects-sub" class="hidden pl-4 pt-1 pb-2 space-y-1.5 border-l border-zinc-800 ml-1">
+          <button onclick="scrollToProjects('all'); closeMobileMenu();" class="block w-full text-left py-1.5 text-sm text-white font-semibold">Tất cả dự án</button>
+          <button onclick="scrollToProjects('neymarsport'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-cinema">NEYMARSPORT</button>
+          <button onclick="scrollToProjects('thaco'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-cinema">THACO AUTO</button>
+          <button onclick="scrollToProjects('vietjet'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-amber-400">VIETJET AIR</button>
+          <button onclick="scrollToProjects('ducati'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-red-400">DUCATI VIỆT NAM</button>
+          <button onclick="scrollToProjects('vutrudaihuu'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-amber-400">VŨ TRỤ ĐẠI HỮU</button>
+          <button onclick="scrollToProjects('bepchethai'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-orange-400">BẾP CHÈ THÁI</button>
+          <button onclick="scrollToProjects('nhakhoabik'); closeMobileMenu();" class="block w-full text-left py-1 text-xs text-zinc-400 hover:text-sky-400">NHA KHOA BIK</button>
+          <button onclick="scrollToProjects('photo'); closeMobileMenu();" class="block w-full text-left py-1.5 text-xs text-emerald-400 font-semibold">Dự Án Hình Ảnh (Sự kiện & Menu)</button>
+        </div>
+      </div>
+
+      <a href="#gear" onclick="closeMobileMenu()" class="block py-2 text-zinc-200 font-medium">Thiết bị & Phần mềm</a>
+      <a href="#about" onclick="closeMobileMenu()" class="block py-2 text-zinc-200 font-medium">Về tôi</a>
+      
+      <div class="pt-2">
+        <a href="tel:0359011212" onclick="closeMobileMenu()" class="block w-full text-center py-3 rounded-xl bg-cinema-gradient text-black font-display font-bold">
+          Gọi / Zalo: 0359011212
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= 1. HERO SECTION ================= -->
+  <section class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=2000&q=80" 
+           alt="Cinema Camera Setup" 
+           class="w-full h-full object-cover opacity-25 scale-105" />
+      <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-obsidian/60"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/70 to-transparent"></div>
+      <div class="absolute top-1/4 -left-20 w-96 h-96 bg-cinema/20 rounded-full blur-[130px]"></div>
+      <div class="absolute bottom-10 right-10 w-80 h-80 bg-amberGlow/10 rounded-full blur-[120px]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 w-full">
+      <div class="max-w-3xl animate-fade-up">
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-7">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span class="text-xs font-medium tracking-wide text-zinc-300">Sẵn sàng nhận dự án mới • TP.HCM & Toàn quốc</span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-[1.08] mb-6">
+          Biến ý tưởng thành <br/>
+          <span class="text-transparent bg-clip-text bg-cinema-gradient">thước phim thương mại</span> <br/>
+          đậm chất điện ảnh.
+        </h1>
+
+        <p class="text-zinc-400 text-base sm:text-xl leading-relaxed max-w-2xl mb-9 font-light">
+          Xin chào, tôi là <strong class="text-white font-semibold">Long Nguyen</strong> — Filmmaker, Photographer & Video Editor với <strong class="text-white font-semibold">5 năm kinh nghiệm</strong> thực chiến. Đối tác sản xuất hình ảnh cho các thương hiệu lớn và dự án sự kiện, ẩm thực chuyên nghiệp.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <button onclick="openShowreelModal()" class="group inline-flex items-center gap-3 px-7 py-4 rounded-full bg-cinema-gradient text-black font-display font-bold text-sm sm:text-base shadow-xl shadow-cinema/25 hover:scale-[1.02] transition-all">
+            <span class="w-8 h-8 rounded-full bg-black/15 flex items-center justify-center group-hover:bg-black/25 transition-colors">
+              <i data-lucide="play" class="w-4 h-4 fill-black text-black ml-0.5"></i>
+            </span>
+            Xem Showreel 2026
+          </button>
+
+          <a href="#projects" class="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-display font-semibold text-sm sm:text-base transition-all">
+            Khám phá dự án
+            <i data-lucide="arrow-down-right" class="w-4 h-4 text-cinema"></i>
+          </a>
+        </div>
+
+        <!-- Quick Metrics -->
+        <div class="grid grid-cols-3 gap-6 sm:gap-10 max-w-lg mt-14 pt-8 border-t border-white/10">
+          <div>
+            <div class="font-display font-extrabold text-2xl sm:text-3xl text-white">05<span class="text-cinema">+</span></div>
+            <div class="text-xs sm:text-sm text-zinc-400 mt-1">Năm kinh nghiệm</div>
+          </div>
+          <div>
+            <div class="font-display font-extrabold text-2xl sm:text-3xl text-white">150<span class="text-cinema">+</span></div>
+            <div class="text-xs sm:text-sm text-zinc-400 mt-1">Dự án hoàn thành</div>
+          </div>
+          <div>
+            <div class="font-display font-extrabold text-2xl sm:text-3xl text-white">4K<span class="text-cinema">/</span>10bit</div>
+            <div class="text-xs sm:text-sm text-zinc-400 mt-1">Chuẩn màu điện ảnh</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. FEATURED WORKS (DỰ ÁN TIÊU BIỂU) ================= -->
+  <section id="projects" class="py-24 px-5 sm:px-8 max-w-7xl mx-auto">
+    <div class="mb-10">
+      <span class="text-cinema font-display font-bold text-xs uppercase tracking-[0.2em] block mb-2">Portfolio Tuyển Chọn</span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight mb-3">Dự án đã thực hiện</h2>
+      <p class="text-zinc-400 text-sm sm:text-base max-w-2xl">
+        Chọn từng thương hiệu để xem chuỗi video đã sản xuất, hoặc chuyển sang mục <strong class="text-emerald-400 font-medium">Dự Án Hình Ảnh</strong> để xem các bộ ảnh sự kiện và chụp menu ẩm thực.
+      </p>
+    </div>
+
+    <!-- Filter Tabs (Thương hiệu & Hình ảnh) -->
+    <div class="flex flex-wrap gap-2 mb-10" id="filter-buttons">
+      <button data-filter="all" class="filter-btn active px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white text-black transition-all">
+        Tất cả
+      </button>
+      <button data-filter="neymarsport" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        NEYMARSPORT
+      </button>
+      <button data-filter="thaco" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        THACO AUTO
+      </button>
+      <button data-filter="vietjet" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        VIETJET AIR
+      </button>
+      <button data-filter="ducati" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        DUCATI VIỆT NAM
+      </button>
+      <button data-filter="vutrudaihuu" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        VŨ TRỤ ĐẠI HỮU
+      </button>
+      <button data-filter="bepchethai" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        BẾP CHÈ THÁI
+      </button>
+      <button data-filter="nhakhoabik" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-surface text-zinc-300 hover:text-white border border-white/10 transition-all">
+        NHA KHOA BIK
+      </button>
+      <button data-filter="photo" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all flex items-center gap-1.5">
+        <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+        Dự Án Hình Ảnh
+      </button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7" id="projects-grid">
+      <!-- Render bằng JS ở cuối trang -->
+    </div>
+  </section>
+
+  <!-- ================= 3. GEAR & SOFTWARE (THIẾT BỊ & PHẦN MỀM) ================= -->
+  <section id="gear" class="py-24 bg-charcoal/60 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="max-w-2xl mb-14">
+        <span class="text-cinema font-display font-bold text-xs uppercase tracking-[0.2em] block mb-2">Production Ecosystem</span>
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight mb-4">Hệ thống thiết bị & Hậu kỳ</h2>
+        <p class="text-zinc-400 text-sm sm:text-base">
+          Đầu tư đồng bộ từ tiền kỳ đến hậu kỳ nhằm đảm bảo chất lượng hình ảnh sắc nét, dải tương phản rộng và tiến độ bàn giao nhanh chóng cho mọi dự án.
+        </p>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1: Camera & Lens -->
+        <div class="bento-card md:col-span-2 rounded-3xl p-7 sm:p-8 relative overflow-hidden">
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-cinema/15 border border-cinema/30 flex items-center justify-center text-cinema">
+              <i data-lucide="camera" class="w-6 h-6"></i>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-white/5 text-zinc-400 text-xs font-medium">Hệ máy Sony Full-Frame</span>
+          </div>
+
+          <h3 class="font-display font-bold text-xl sm:text-2xl text-white mb-2">Camera & Ống kính Khẩu Lớn f/2.8</h3>
+          <p class="text-zinc-400 text-sm mb-6 max-w-xl">
+            Khả năng ghi hình 4K 10-bit 4:2:2 S-Log3 kết hợp bộ đôi ống kính zoom khẩu lớn f/2.8, đáp ứng trọn vẹn từ góc rộng sự kiện, hội trường đến đặc tả chi tiết món ăn và sản phẩm.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="p-4 rounded-2xl bg-obsidian/80 border border-white/5">
+              <div class="text-xs text-cinema font-semibold uppercase mb-1">Camera Body</div>
+              <div class="font-display font-bold text-white text-sm">Sony A7 Mark V</div>
+              <div class="text-xs text-zinc-500 mt-1">4K 60p/120p • S-Cinetone</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-obsidian/80 border border-white/5">
+              <div class="text-xs text-amberGlow font-semibold uppercase mb-1">Standard Zoom</div>
+              <div class="font-display font-bold text-white text-sm">Sony 24-70mm GM II</div>
+              <div class="text-xs text-zinc-500 mt-1">Khẩu độ f/2.8 toàn dải</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-obsidian/80 border border-white/5">
+              <div class="text-xs text-amberGlow font-semibold uppercase mb-1">Telephoto Zoom</div>
+              <div class="font-display font-bold text-white text-sm">Sigma 70-200mm DG DN OS Sports</div>
+              <div class="text-xs text-zinc-500 mt-1">Xóa phông & Bắt nét tốc độ cao</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Stabilizer & Power -->
+        <div class="bento-card rounded-3xl p-7 sm:p-8 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-amberGlow/15 border border-amberGlow/30 flex items-center justify-center text-amberGlow mb-6">
+              <i data-lucide="battery-charging" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-2">Chống rung & Nguồn điện</h3>
+            <p class="text-zinc-400 text-sm mb-6">
+              Vận hành bền bỉ suốt ngày dài quay ngoại cảnh hoặc sự kiện liên tục không gián đoạn.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-obsidian/80 border border-white/5">
+              <i data-lucide="move-3d" class="w-5 h-5 text-cinema shrink-0"></i>
+              <div>
+                <div class="font-display font-bold text-white text-sm">DJI Ronin RS4 Pro</div>
+                <div class="text-xs text-zinc-500">Chống rung tải trọng lớn, quay dọc/ngang</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-obsidian/80 border border-white/5">
+              <i data-lucide="zap" class="w-5 h-5 text-amberGlow shrink-0"></i>
+              <div>
+                <div class="font-display font-bold text-white text-sm">Pin V-Mount K&F Concept</div>
+                <div class="text-xs text-zinc-500">Cấp nguồn liên tục cho máy & phụ kiện</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Post-Production Software -->
+        <div class="bento-card md:col-span-3 rounded-3xl p-7 sm:p-8">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Post-Production & Graphic Suite</span>
+              <h3 class="font-display font-bold text-xl sm:text-2xl text-white mt-1">Phần mềm hậu kỳ & Thiết kế chuyên sâu</h3>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+              <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-obsidian border border-white/10">
+                <span class="w-7 h-7 rounded-md bg-[#00005B] text-[#9999FF] font-display font-extrabold text-xs flex items-center justify-center border border-[#9999FF]/30">Pr</span>
+                <span class="text-sm font-medium text-zinc-200">Adobe Premiere</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-obsidian border border-white/10">
+                <span class="w-7 h-7 rounded-md bg-[#00005B] text-[#9999FF] font-display font-extrabold text-xs flex items-center justify-center border border-[#9999FF]/30">Ae</span>
+                <span class="text-sm font-medium text-zinc-200">After Effects</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-obsidian border border-white/10">
+                <span class="w-7 h-7 rounded-md bg-[#001E36] text-[#31A8FF] font-display font-extrabold text-xs flex items-center justify-center border border-[#31A8FF]/30">Ps</span>
+                <span class="text-sm font-medium text-zinc-200">Photoshop</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-obsidian border border-white/10">
+                <span class="w-7 h-7 rounded-md bg-[#330000] text-[#FF9A00] font-display font-extrabold text-xs flex items-center justify-center border border-[#FF9A00]/30">Ai</span>
+                <span class="text-sm font-medium text-zinc-200">Illustrator</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-obsidian border border-white/10">
+                <span class="w-7 h-7 rounded-md bg-white text-black font-display font-extrabold text-xs flex items-center justify-center">Cc</span>
+                <span class="text-sm font-medium text-zinc-200">CapCut Pro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. ABOUT & WORKFLOW ================= -->
+  <section id="about" class="py-24 bg-charcoal/50 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5">
+          <div class="relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5] bg-surface">
+            <img src="https://drive.google.com/thumbnail?id=1a2ggeyXKKVSiLdWf7PwX25sHTP0sqxiv&sz=w1200" 
+                 alt="Long Nguyen Filmmaker" 
+                 class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-obsidian/85 backdrop-blur-md border border-white/10">
+              <div class="font-display font-bold text-white text-lg">Long Nguyen</div>
+              <div class="text-xs text-cinema font-medium mt-0.5">Filmmaker • Photographer • Video Editor</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-8">
+          <div>
+            <span class="text-cinema font-display font-bold text-xs uppercase tracking-[0.2em] block mb-2">Về Tôi & Quy Trình</span>
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight mb-4">
+              Tư duy hình ảnh thực chiến, tối ưu hiệu quả truyền thông
+            </h2>
+            <p class="text-zinc-400 text-sm sm:text-base leading-relaxed">
+              Với 5 năm làm nghề trong lĩnh vực sản xuất nội dung số, tôi không chỉ tập trung vào những khung hình đẹp mắt mà luôn đặt mục tiêu truyền tải đúng thông điệp sản phẩm và giữ chân người xem đến giây cuối cùng.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-5 rounded-2xl bg-obsidian border border-white/5">
+              <span class="text-cinema font-accent font-extrabold text-lg">01.</span>
+              <h4 class="font-display font-bold text-white text-base mt-1">Tiếp nhận Brief & Tư vấn</h4>
+              <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Thống nhất mục tiêu video/hình ảnh, bối cảnh, thiết bị cần thiết và báo giá minh bạch.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-obsidian border border-white/5">
+              <span class="text-cinema font-accent font-extrabold text-lg">02.</span>
+              <h4 class="font-display font-bold text-white text-base mt-1">Sản xuất Tiền kỳ (On-set)</h4>
+              <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Setup ánh sáng, góc máy chuẩn điện ảnh, đảm bảo đúng tiến độ buổi quay/chụp.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-obsidian border border-white/5">
+              <span class="text-cinema font-accent font-extrabold text-lg">03.</span>
+              <h4 class="font-display font-bold text-white text-base mt-1">Dựng phim & Chỉnh màu</h4>
+              <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Biên tập mạch lạc, lồng ghép hiệu ứng đồ họa, âm thanh và cân chỉnh màu sắc.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-obsidian border border-white/5">
+              <span class="text-cinema font-accent font-extrabold text-lg">04.</span>
+              <h4 class="font-display font-bold text-white text-base mt-1">Bàn giao & Tinh chỉnh</h4>
+              <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Xuất file chất lượng cao đa định dạng (16:9, 9:16) và hỗ trợ chỉnh sửa theo phản hồi.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-white/10 text-xs text-zinc-400">
+            <span>Hotline / Zalo: <a href="tel:0359011212" class="text-white font-semibold hover:text-cinema">0359011212</a> • Email: <a href="mailto:longnguyen.editor@gmail.com" class="text-white font-semibold hover:text-cinema">longnguyen.editor@gmail.com</a></span>
+            <span class="text-zinc-500">© 2026 Long Nguyen Media. All rights reserved.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MULTI-VIDEO & PHOTO GALLERY MODAL ================= -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-2.5 sm:p-6 bg-black/90 backdrop-blur-md overflow-y-auto">
+    <div class="bg-charcoal border border-white/15 rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative animate-fade-up my-auto">
+      <button onclick="closeModal()" class="sticky top-3 float-right mr-3 mt-3 z-30 w-9 h-9 rounded-full bg-black/80 hover:bg-cinema text-white flex items-center justify-center transition-colors border border-white/15">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div id="modal-media" class="aspect-video max-h-[45vh] sm:max-h-[60vh] w-full bg-black flex items-center justify-center relative clear-both"></div>
+
+      <div id="modal-sub-items" class="hidden px-4 sm:px-6 pt-3 pb-2 bg-obsidian/90 border-b border-white/10"></div>
+
+      <div class="p-4 sm:p-7">
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span id="modal-category" class="px-3 py-1 rounded-full bg-cinema/15 text-cinema text-xs font-semibold"></span>
+          <span id="modal-gear" class="text-xs text-zinc-400"></span>
+        </div>
+        <h3 id="modal-title" class="font-display font-bold text-lg sm:text-2xl text-white mb-2"></h3>
+        <p id="modal-desc" class="text-zinc-400 text-xs sm:text-sm leading-relaxed"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // =========================================================================
+    // === VÙNG CẤU HÌNH DỰ ÁN, VIDEO & ALBUM ẢNH CỦA BẠN (SỬA TẠI ĐÂY) ===
+    // =========================================================================
+
+    // 1. Link Video Showreel chính
+    const showreelUrl = "https://drive.google.com/file/d/1dyiJT5F-iHhIlxJF1_XzX0NJvYRHL1Oa/view?usp=sharing";
+
+    // 2. Danh sách các dự án theo từng Thương hiệu & Thư viện hình ảnh
+    const projects = [
+      {
+        id: 1,
+        title: "Chuỗi Video Thương Hiệu & Review Giày Đá Bóng — NEYMARSPORT",
+        category: "neymarsport",
+        brandName: "NEYMARSPORT",
+        role: "Quay phim, Dựng & Chỉnh màu",
+        thumbnail: "https://drive.google.com/file/d/1m8xfVIhgjKYM64_BBOIYW_dhLLoI9Vbm/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm & Sigma 70-200mm DG DN OS Sports • Ronin RS4 Pro",
+        description: "Sản xuất chuỗi video đánh giá sản phẩm, giới thiệu bộ sưu tập giày đá bóng chính hãng và các video viral ngắn cho hệ thống NEYMARSPORT.",
+        videos: [
+          {
+            title: "Video 01: J97 ĐÁ BÓNG CỰC NGHỆ",
+            url: "https://drive.google.com/file/d/1QlWzKRdMpYYPgfM11uoK4BKweA7F0ty8/view?usp=sharing"
+          },
+          {
+            title: "Video 02: THỬ THÁCH MAI CỒ CÁ CHỐT TẬP 1",
+            url: "https://drive.google.com/file/d/1Hucne2wblaxwVSuMyXKK-NtxkGSFpjVM/view?usp=sharing"
+          },
+          {
+            title: "Video 03: THỬ THÁCH MAI CỒ CÁ CHỐT TẬP 2",
+            url: "https://drive.google.com/file/d/12YBoOuUEPzO2u-jPXG9GgJnK8_7IEfI6/view?usp=sharing"
+          },
+          {
+            title: "Video 04: SERIES 21 NGÀY TẬP 17",
+            url: "https://drive.google.com/file/d/1s9Ll7XG03KeOEiS-hAcQ3Ul3W5VFwCtl/view?usp=sharing"
+          },
+          {
+            title: "Video 05: SERIES 21 NGÀY TẬP 19",
+            url: "https://drive.google.com/file/d/1ABsBjHjteE6iUWomdr9PcawQkwXKtdXt/view?usp=sharing"
+          },
+          {
+            title: "Video 06: MAI CỒ CÁ CHỐT HƯỚNG DẪN SÚT ÚP MU",
+            url: "https://drive.google.com/file/d/1Qy5QLvs9rAZ3yv_5ZI0aNSjVtXLaxKIB/view?usp=sharing"
+          },
+          {
+            title: "Video 07: MAI CỒ CÁ CHỐT GHI BÀN HÀI HƯỚC",
+            url: "https://drive.google.com/file/d/1BezFbKrCPdDUwIa9V93QhktWxv2Z9Jc-/view?usp=sharing"
+          },
+          {
+            title: "Video 08: VUA PHỦI CAPDERVILAR HƯỚNG DẪN RÊ GẦM",
+            url: "https://drive.google.com/file/d/17BX9zduJXvPHYD0P5FQ6ndLDQ1AUe-Cf/view?usp=sharing"
+          },
+          {
+            title: "Video 09: REVIEW NMS ATTACK 2.0",
+            url: "https://drive.google.com/file/d/1A-bp9x1yK7B7ujHCVDQEXM6i65ctYj6d/view?usp=sharing"
+          },
+          {
+            title: "Video 10: ĐÂU LÀ ĐÔI GIÀY CHÂN ÁI CỦA MAI CỒ CÁ CHỐT",
+            url: "https://drive.google.com/file/d/1aeeuw6tzECuD0rvcvoc4haLdc0VrSgt-/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: "Video Thương Mại & Đánh Giá Dòng Xe — THACO AUTO",
+        category: "thaco",
+        brandName: "THACO AUTO",
+        role: "Filmmaker & Video Editor",
+        thumbnail: "https://drive.google.com/file/d/1lXplKP09k5d0zS1oKLVjM6MG9OFuLYRM/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm GM II • 14 F4 VILTROX • DJI Ronin RS4 Pro",
+        description: "Quay ngoại cảnh kết hợp đặc tả thiết kế ngoại thất, khoang nội thất, công nghệ động cơ và tính năng vận hành cho các dòng xe thương mại & du lịch THACO AUTO.",
+        videos: [
+          {
+            title: "Video 01: XE VAN ĐIỆN THACO TOWNER E V-2S",
+            url: "https://drive.google.com/file/d/1dyiJT5F-iHhIlxJF1_XzX0NJvYRHL1Oa/view?usp=sharing"
+          },
+          {
+            title: "Video 02: TVC CÔNG TY VẬN TẢI DHP GROUP",
+            url: "https://drive.google.com/file/d/1iAnMnkqCt1-vSGghjUo34B2ijAvpvv0V/view?usp=sharing"
+          },
+          {
+            title: "Video 03: CẢM NHẬN KHÁCH HÀNG VỀ DÒNG XE VAN THACO",
+            url: "https://drive.google.com/file/d/1XXpsuQwQbLEScSIgJ3hatZvA5pt0lnau/view?usp=sharing"
+          },
+          {
+            title: "Video 04: VIDEO BÀN GIAO XE VIỆT TÂN PHÁT",
+            url: "https://drive.google.com/file/d/1NpbyOQ4roph6w_Vf3xjkL-vdbupAEC9Z/view?usp=sharing"
+          },
+          {
+            title: "Video 05: CHƯƠNG TRÌNH LÁI THỬ XE BMW",
+            url: "https://drive.google.com/file/d/1jET4j3PmnqxKysojg835dRIau8w4l6Ta/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "Video Truyền Thông & Sự Kiện Hàng Không — VIETJET AIR",
+        category: "vietjet",
+        brandName: "VIETJET AIR",
+        role: "Quay phim & Hậu kỳ",
+        thumbnail: "https://drive.google.com/file/d/1j44waQRwzgycFN6JWyZvhtRcAayH3Nf2/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm SIGMA • DJI Ronin RS4 Pro",
+        description: "Ghi hình các hoạt động sự kiện, dịch vụ hàng không và video truyền thông thương hiệu với góc máy năng động, sắc nét.",
+        videos: [
+          {
+            title: "Video 01: HẠNH PHÚC KHÔNG Ở ĐÂU XA, HẠNH PHÚC LÀ ĐƯỢC BAY",
+            url: "https://drive.google.com/file/d/1UzcnmSIudSO2XvydxPk2wSSfGg-90w6T/view?usp=sharing"
+          },
+          {
+            title: "Video 02: ƯU ĐÃI NGÀY 8.3",
+            url: "https://drive.google.com/file/d/1T_iQfxjxa4UUUzDfquDKpPsOpg8KQYHY/view?usp=sharing"
+          },
+          {
+            title: "Video 03: TRỞ THÀNH ĐẠI LÝ CỦA VIETJET",
+            url: "https://drive.google.com/file/d/1umYrpjLv6WUO6JnQw67XR6AesdqM9we9/view?usp=sharing"
+          },
+          {
+            title: "Video 04: MỘT NGÀY CỦA NHÂN VIÊN ĐẠI LÝ VIETJET",
+            url: "https://drive.google.com/file/d/16_bimRZ0g1ARXu7GHV9VmeY9H5vvoE0s/view?usp=sharing"
+          },
+          {
+            title: "Video 05: TRUYỀN NĂNG LƯỢNG TÍCH CỰC ĐẾN MỌI NGƯỜI",
+            url: "https://drive.google.com/file/d/1r3CcSQGIwbP8omOhWwZcl_FKQn30gmvb/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: "Cinematic Showcase & Event Phân Khối Lớn — DUCATI VIỆT NAM",
+        category: "ducati",
+        brandName: "DUCATI VIỆT NAM",
+        role: "Đạo diễn hình ảnh & Color Grading",
+        thumbnail: "https://drive.google.com/file/d/1J8wCZ961NZyE5Vh_uuCbrq25isvSvRJi/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm GM II • Ronin RS4 Pro",
+        description: "Những thước phim tốc độ, âm thanh động cơ đặc trưng và sự kiện cộng đồng biker đẳng cấp của Ducati Việt Nam.",
+        videos: [
+          {
+            title: "Video 01: CHILL CÙNG DUCATI SCRAMBLER",
+            url: "https://drive.google.com/file/d/1Zy3Wm0dAwNZ2GKMGm-U96L9qPmobV-tW/view?usp=sharing"
+          },
+          {
+            title: "Video 02: TẠI SAO CÁC DÒNG XE HIỆN NAY LẠI TRANG BỊ CÁNH GIÓ",
+            url: "https://drive.google.com/file/d/17_x-xXklIiOYWCBXZJgjNBbQhsUnpCg4/view?usp=sharing"
+          },
+          {
+            title: "Video 03: DUCATI PANIGALE V2",
+            url: "https://drive.google.com/file/d/1iEiJf-5T6K9pMzy1jFyGfI8GkgB2zgN2/view?usp=sharing"
+          },
+          {
+            title: "Video 04: SO SÁNH SUPER SPORT 950 VS PANIGALE V2",
+            url: "https://drive.google.com/file/d/1eNAH4gmxGXdulzxy0qtS6FhrD5B962nz/view?usp=sharing"
+          },
+          {
+            title: "Video 05: New SuperSport 950S",
+            url: "https://drive.google.com/file/d/1neWQPaA4wjSEKAF8tk8RFO0eczEmL985/view?usp=sharing"
+          },
+          {
+            title: "Video 06: CÁC DÒNG ADV CỦA DUCATI",
+            url: "https://drive.google.com/file/d/1ieEI7pXGTqlBzDzGDRyXAMYYm8ACFBlS/view?usp=sharing"
+          },
+          {
+            title: "Video 07: SO SÁNH ĐƯỜNG KÍNH BÁNH 2 MẪU XE DUCATI",
+            url: "https://drive.google.com/file/d/1gY3J4e5D6LORRaoKsbvWKEInr96Z1XDZ/view?usp=sharing"
+          },
+          {
+            title: "Video 08: TRANG BỊ PHỤ KIỆN Scrambler Next-Gen Icon",
+            url: "https://drive.google.com/file/d/17FcvKnJi1QkHmUwC8RqtNQl2ANW7JiPd/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 5,
+        title: "Sản Xuất Nội Dung & Video Thương Hiệu Về Mỹ Phẩm — VŨ TRỤ ĐẠI HỮU",
+        category: "vutrudaihuu",
+        brandName: "VŨ TRỤ ĐẠI HỮU",
+        role: "Quay phim, Dựng & Motion Graphic",
+        thumbnail: "https://drive.google.com/file/d/1XtML6yKuogRt7xvEdEb9MCfrpB3blmyj/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm GM II • Ronin RS4 Pro",
+        description: "Hệ thống video giới thiệu dịch vụ, chia sẻ chuyên môn và truyền thông đa kênh cho Vũ Trụ Đại Hữu.",
+        videos: [
+          {
+            title: "Video 01: VŨ TRỤ ĐẠI HỮU MỞ LIVE SIÊU PHẨM",
+            url: "https://drive.google.com/file/d/1-42Yum-PVW3A8rrExyLNZANZAyzm5Pvo/view?usp=sharing"
+          },
+          {
+            title: "Video 02: NGÀY HỘI MỸ PHẨM 6.6",
+            url: "https://drive.google.com/file/d/1tpbEtP2H-LyDnJCbo4lMFYrD-5ez7G5P/view?usp=sharing"
+          },
+          {
+            title: "Video 03: XẢ KHO KỊCH SÀN",
+            url: "https://drive.google.com/file/d/1t8OYV1s4jtglDonGdffs1kKOMoMtEGPf/view?usp=sharing"
+          },
+          {
+            title: "Video 04: MUA CÀNG NHIỀU QUÀ CÀNG KHỦNG",
+            url: "https://drive.google.com/file/d/1QPCPidV0z2FEWfbvnR8EKus7F6ULedd7/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 6,
+        title: "Video Quảng Bá Ẩm Thực — BẾP CHÈ THÁI",
+        category: "bepchethai",
+        brandName: "BẾP CHÈ THÁI",
+        role: "Quay đặc tả món ăn & Dựng Reels/TikTok",
+        thumbnail: "https://drive.google.com/file/d/1gIMoTodNrVH1ioSL473qA_R-uenn6KBP/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm GM II • CapCut Pro & Premiere",
+        description: "Quay cận cảnh quy trình chế biến hấp dẫn, màu sắc tươi ngon của cơm cháy đáy nồi và các món ăn vặt đặc trưng tại Bếp Chè Thái.",
+        videos: [
+          {
+            title: "Video 01: ĐẶC SẢN SÀI GÒN CƠM CHÁY ĐÁY NỒI",
+            url: "https://drive.google.com/file/d/10VKaybYp061lKLioeDLvEo1WZFHLOIVN/view?usp=sharing"
+          },
+          {
+            title: "Video 02: MÍT THÁI SẤY GIÒN",
+            url: "https://drive.google.com/file/d/1V_-IknaCcGVtR8caG3AoL1Zs4lCioCEk/view?usp=sharing"
+          },
+          {
+            title: "Video 03: ĐẶC SẢN SÀI GÒN CƠM CHÁY ĐÁY NỒI (VER 2)",
+            url: "https://drive.google.com/file/d/10VKaybYp061lKLioeDLvEo1WZFHLOIVN/view?usp=sharing"
+          },
+          {
+            title: "Video 04: BÁNH GỪNG TÁO ĐỎ",
+            url: "https://drive.google.com/file/d/1XPPaQ91LRRmwG_4BDQUvfleqOEfw0cI8/view?usp=sharing"
+          },
+          {
+            title: "Video 05: COMBO 3 MÓN",
+            url: "https://drive.google.com/file/d/1rxWYbGS8MVinWHvfRh1Gm1q7c9glAFsT/view?usp=sharing"
+          },
+          {
+            title: "Video 06: KHOAI MÔN TRỨNG CỦA VỊ NGON NGÀY TẾT",
+            url: "https://drive.google.com/file/d/1xHuLhjGRIAmuz-vVxfyVwsa9AQfdoUrl/view?usp=sharing"
+          },
+          {
+            title: "Video 07: COMBO CƠM CHÁY CHÀ BÔNG VÀ CƠM CHÁY MẮM HÀNH",
+            url: "https://drive.google.com/file/d/1mbs0kFS_3PhJCKj-hqYa_rTr8Asl3wSt/view?usp=sharing"
+          },
+          {
+            title: "Video 08: GIẢM GIÁ CỰC SÂU CƠM CHÁY ĐÁY NỒI",
+            url: "https://drive.google.com/file/d/1PGdiHrxj1ZPvXkD_6qy25Aw3hxEHI22v/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 7,
+        title: "Video Nha Khoa Thẩm Mỹ & Trải Nghiệm Khách Hàng — NHA KHOA BIK",
+        category: "nhakhoabik",
+        brandName: "NHA KHOA BIK",
+        role: "Filmmaker & Video Editor",
+        thumbnail: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80",
+        gear: "Sony A7 Mark V • 24-70mm & Sigma 70-200mm DG DN OS Sports • Ronin RS4 Pro",
+        description: "Sản xuất video giới thiệu cơ sở vật chất hiện đại, đội ngũ bác sĩ chuyên môn và câu chuyện khách hàng tại Nha Khoa BIK.",
+        videos: [
+          {
+            title: "Video 01: Giới Thiệu Hệ Thống Phòng Khám Nha Khoa BIK",
+            url: "https://drive.google.com/file/d/1Q24s2tK23ZdOnWAC6cPu5GDMtDLNJtHg/view?usp=sharing"
+          },
+          {
+            title: "Video 02: CẢM NHẬN CỦA KHÁCH HÀNG SAU KHI TRẢI NGHIỆM DỊCH VỤ BIK",
+            url: "https://drive.google.com/file/d/1HEWcieprRJL8bwpHoZSsz7GyLcsrSSHW/view?usp=sharing"
+          },
+          {
+            title: "Video 03: NHỔ RĂNG KHÔN CÓ ĐAU KHÔNG",
+            url: "https://drive.google.com/file/d/10hJpEUpMAdmec9XBrxSQcgc_3uOSa2i2/view?usp=sharing"
+          },
+          {
+            title: "Video 04: CẢM NHẬN CỦA KHÁCH HÀNG SAU CA NIỀNG",
+            url: "https://drive.google.com/file/d/11psNZSUr0_ZM6cflrkZmqAxGkHYlCYWi/view?usp=sharing"
+          },
+          {
+            title: "Video 05: NÊN CHỌN IMPLANT NÀO?",
+            url: "https://drive.google.com/file/d/1auvcj0X6inSxFtgM_MJGX7ypgX5DsYxO/view?usp=sharing"
+          },
+          {
+            title: "Video 06: CẢM NHẬN KHÁCH HÀNG SAU KHI THÁO NIỀNG",
+            url: "https://drive.google.com/file/d/1yZ2CheXG-Tk8sDCp4c-7_mLKAaYjvJEC/view?usp=sharing"
+          },
+          {
+            title: "Video 07: TRÁM RĂNG CÓ BỀN KHÔNG",
+            url: "https://drive.google.com/file/d/1nABcXp3cuPRUiu22fAn1yk3Bv_PrnwjY/view?usp=sharing"
+          },
+          {
+            title: "Video 08: SAI KHỚP CẮN",
+            url: "https://drive.google.com/file/d/1SW7_rEVgzOWtg2jyYkjSA2auDwLWPn_U/view?usp=sharing"
+          },
+          {
+            title: "Video 09: HÃY NIỀNG RĂNG TẠI BIK",
+            url: "https://drive.google.com/file/d/1ib-EJ-zqdjNDYqMx3p4RcFI1EWOk3wKo/view?usp=sharing"
+          },
+          {
+            title: "Video 10: KHI NÀO NÊN TÁI KHÁM KHI CẮM IMPLANT",
+            url: "https://drive.google.com/file/d/1Mk-qZj0KSjpxtNjS1Nfupk7sP3FYaug0/view?usp=sharing"
+          }
+        ]
+      },
+
+      // =======================================================================
+      // === MỤC DỰ ÁN HÌNH ẢNH RIÊNG (SỰ KIỆN BÁCH KHOA & CHỤP MENU MÓN ĂN) ===
+      // =======================================================================
+      {
+        id: 8,
+        title: "Sự Kiện Trao Học Bổng — Đại Học Bách Khoa TP.HCM (HCMUT)",
+        category: "photo",
+        brandName: "Dự Án Hình Ảnh • Sự Kiện",
+        role: "Event Photographer & Retoucher",
+        thumbnail: "https://drive.google.com/file/d/1roVCzTTe58ECeHP1rHu13RyfUbgwhDXr/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm & Sigma 70-200mm DG DN OS Sports • Photoshop",
+        description: "Ghi lại trọn vẹn những khoảnh khắc trang trọng và cảm xúc tại Lễ trao học bổng dành cho sinh viên Trường Đại học Bách Khoa — ĐHQG TP.HCM.",
+        photos: [
+          {
+            caption: "Ảnh 01: Hoạt động check-in & đón khách trước giờ khai mạc tại ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1Yhu1mp-WOLHP1xN5DnBrXsvloji2L0sL/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 02: Hoạt động check-in & đón khách trước giờ khai mạc tại ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1OwRnCTkHvf2JqA9Vwz1W_1SFgKqHQocx/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 03: Hoạt động check-in & đón khách trước giờ khai mạc tại ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1d5PiS69ElJw4-e3NpzMsVlVAZ39f5H38/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 04: Hoạt động check-in & đón khách trước giờ khai mạc tại ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1FxwhuCb5N5soDAKtuA59kBXl0cu2KECi/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 05: Hoạt động check-in & đón khách trước giờ khai mạc tại ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1wuJNXGCIecmzmrqgaqIej1EDwBnGkQo-/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 06: Hoạt động check-in & đón khách trước giờ khai mạc tại ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/174gLRDLOZ820xPjHIZZizY-0S4-Q_Orj/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 07: Không khí sảnh sự kiện Lễ trao học bổng ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1nTa1TnJKWI97-AmCAjhtc7-Ju9phoSFe/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 08: Không khí sảnh sự kiện Lễ trao học bổng ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1IHQkFQi7df4LugNJ-c_sScEeAZD7G_ql/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 09: Không khí sảnh sự kiện Lễ trao học bổng ĐH Bách Khoa TP.HCM",
+            url: "https://drive.google.com/file/d/1JN9nZKWzxTPQEJ5Gzte1B_ySpZ6MnBkN/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 10: Khoảnh khắc chào cờ trước khi bắt đầu sự kiện",
+            url: "https://drive.google.com/file/d/1Fgv8BtzP1nX4BpbIiZk_v-FVxrpDGO-3/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 11: Khoảnh khắc chào cờ trước khi bắt đầu sự kiện",
+            url: "https://drive.google.com/file/d/1wSoR5zOADBoxiffAW1EIomSW9s3b8lir/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 12: Tổng thể sân khấu khi diễn ra sự kiện",
+            url: "https://drive.google.com/file/d/1Y00i4pzr_S-NAjrLLRMLouFCYZWOcE5O/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 13: Tổng thể sân khấu khi diễn ra sự kiện",
+            url: "https://drive.google.com/file/d/1fgkwCxZ9Bj11jTcxMcH5VESR46n4y_mK/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 14: Tổng thể sân khấu khi diễn ra sự kiện",
+            url: "https://drive.google.com/file/d/1jrc_vgmenpIac2_JYXzrBHM_nv-ydcl8/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 15: Các tiết mục văn nghệ",
+            url: "https://drive.google.com/file/d/1n2uT4Se3hfi2HEjyJCI3Kee0bOvhqBMI/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 16: Các tiết mục văn nghệ",
+            url: "https://drive.google.com/file/d/1IVGbowaj_ZwIcfxrpT_KNAb7kQxsjwZk/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 17: Các tiết mục văn nghệ",
+            url: "https://drive.google.com/file/d/1qEztX0ysgf4lCN8keRL6A0sbOfjAUfy7/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 18: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1Oos1B7s2CJRrfcO0sy-K2gJcYWqk5iyO/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 19: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1kpRPL7bsYWMKKfP79rzo8WFnWcIxDUHv/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 20: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1VPYO_meeF21TyKKpGMVqrCjRwfPOEEJs/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 21: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1aR1oo2M5Nvkkgb_M7SjBwjyEzYg3VgxY/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 22: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1fopMQwdd1Ah4BJC_TxZAeZnetUmFe8PV/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 23: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1ujesNg760V0c4xhv09Xc3uDhrBlut1Pd/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 24: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/19xhV9rfWPAwdmtRn8vwwROFYlHfIqASM/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 25: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1OfHkNo6P6Rg9Gtyg0DzDJACvdJcm2Dke/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 26: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1OaQZeCQW7KeBickgUob7AMbEU6yvjsby/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 27: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1wCLJ__yGNXCE3SKf_LLkzyWTEPnbnXX_/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 28: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1npBuZeYlntxZuCeAHo3_PPJ6eFMZF5NX/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 29: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1gPb8MUGIeG2tB0M3aVF8VUj1lL73mUIR/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 30: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1lFo1t6-WXvf2_scRL3W0EldV9pT0XBZc/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 31: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1V19bhqxrTltkCy0wlgTAmnoxtXn4tCoM/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 32: Thầy cô trao thưởng",
+            url: "https://drive.google.com/file/d/1LxXlJJl-ovqz92t-pj1FMM8TWDUs6-1w/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 33: Ảnh tập thể thí sinh và thầy cô",
+            url: "https://drive.google.com/file/d/1H07eLLg5SG5ulZKeifMwA4SeZb8xiY3k/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 34: Không khí sự kiện trước khi kết thúc chương trình",
+            url: "https://drive.google.com/file/d/1OA_f9F2YWyDRZjXsp6IrtKOTsD6l_F8W/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 35: Không khí sự kiện trước khi kết thúc chương trình",
+            url: "https://drive.google.com/file/d/1EXUqHwPrySLT55QzTXOmQ5uhobqR3rsH/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 36: Không khí sự kiện trước khi kết thúc chương trình",
+            url: "https://drive.google.com/file/d/1GSG4A5JfhLbMm6Dr8Gv934qNIfciK7Mm/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 37: Không khí sự kiện trước khi kết thúc chương trình",
+            url: "https://drive.google.com/file/d/1J2LiaJuiv7sp0H6s8PNbetg8jqZorB7u/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 38: Không khí sự kiện trước khi kết thúc chương trình",
+            url: "https://drive.google.com/file/d/1UF3MKQmD7Fzy9eWo-_FfrbipKYSy2_O9/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 39: Không khí sự kiện trước khi kết thúc chương trình",
+            url: "https://drive.google.com/file/d/1GZh7xiVAENxGQ2FLA-NsfAKRgsduQBOa/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 9,
+        title: "Chụp Ảnh Menu Món Ăn & Thức Uống — Nhà Hàng Lẩu Nướng Kul Kul",
+        category: "photo",
+        brandName: "Dự Án Hình Ảnh • Kul Kul BBQ & Hotpot",
+        role: "Food Photographer & Retoucher",
+        thumbnail: "https://drive.google.com/file/d/1UTZrfL7wvRb8QMAD7Kv2MPFsHL_gr2dR/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm GM II • Studio Lighting & Photoshop",
+        description: "Bộ ảnh chụp menu các món ăn, đồ nhậu, hải sản tươi sống và thức uống đi kèm tại Nhà Hàng Lẩu Nướng Kul Kul, tối ưu màu sắc bắt mắt cho thiết kế menu và quảng cáo.",
+        photos: [
+          {
+            caption: "Ảnh 01: CÁC MÓN GỎI",
+            url: "https://drive.google.com/file/d/1hhkvW6LCtdWU9ks_G5ygwauLdeUpsVHP/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 02: CÁC MÓN GỎI",
+            url: "https://drive.google.com/file/d/1ppMpxgblHtNnLlBWVHn4XzW7ojY3FFqS/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 03: CÁC MÓN GỎI",
+            url: "https://drive.google.com/file/d/1Ez_Kie7YeOWV92xNnU2jlB5cpbgZFPz1/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 04: CÁC MÓN GỎI",
+            url: "https://drive.google.com/file/d/1uM3k-KkapEm8LV82TZ4UlhtexIhoYJu_/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 05: CÁC MÓN GỎI",
+            url: "https://drive.google.com/file/d/1KZ8yW8bhMVJ8fnBnq7T80fOmyw_aEcvZ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 06: TÔM SỐT THÁI",
+            url: "https://drive.google.com/file/d/18ph5ppZJ9znQXRfnuLwe2VMQZghs5pe3/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 07: TÔM SỐT THÁI",
+            url: "https://drive.google.com/file/d/1mNab3pC6zXuJDGT6DsPsdqMlMm2AjD9-/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 08: MÓN KHAI VỊ",
+            url: "https://drive.google.com/file/d/1iK-DsxegjMsId3XCDrZ5CRcztyyS4_tB/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 09: MÓN NƯỚNG",
+            url: "https://drive.google.com/file/d/1jQyOSEACLuIZt5h6Wgbg79iOY8Z1Y456/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 10: MÓN NƯỚNG",
+            url: "https://drive.google.com/file/d/1DqLmum5xFcXHo0WFo2tMLKPs1LSU7mgY/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 11: MÌ XÀO BÒ",
+            url: "https://drive.google.com/file/d/1cmkh8hrOVty5BH8QGZr2SEWkGooSh8P-/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 12: MÌ XÀO BÒ",
+            url: "https://drive.google.com/file/d/15XAvYdTC_9hXjdMWf6wfOIALrgFVErAQ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 13: MÓN XÀO",
+            url: "https://drive.google.com/file/d/1-LnsmL9wTkiUtkmRld9PLIN2pf6wsNk_/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 14: MÓN XÀO",
+            url: "https://drive.google.com/file/d/16teSO4Iy2ULr-hdGoZuo8RyROS6MVlc3/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 15: BÒ LÚC LẮC",
+            url: "https://drive.google.com/file/d/1rsYt9VEiQARu0ofVS8QO8L-MazfZd0rk/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 16: BÒ LÚC LẮC",
+            url: "https://drive.google.com/file/d/1G7tS2jK3Eb5pjGQ4uYAbH_CqNRjCaDcV/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 17: BÒ LÚC LẮC",
+            url: "https://drive.google.com/file/d/1_Q46IzSOf2Gyut6gq9G70TOYJShoKNny/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 18: XÚC XÍCH HUNG KHÓI",
+            url: "https://drive.google.com/file/d/1v-b8NDkEzcTJWAXG-I8bHn3-42eNQJDu/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 19: CUA RANG ME",
+            url: "https://drive.google.com/file/d/12m3pVw_rMLaypjtg5jRMsPjR_CB-7kDc/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 20: CUA RANG ME",
+            url: "https://drive.google.com/file/d/18ZNYwUwj-cuakgOdBjl-mF3KJjnNQJIJ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 21: CHÂN GÀ NƯỚNG",
+            url: "https://drive.google.com/file/d/1jQyOSEACLuIZt5h6Wgbg79iOY8Z1Y456/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 22: CHÂN GÀ NƯỚNG",
+            url: "https://drive.google.com/file/d/1lRGxMYmisu8rTXsSS-iQWJrc9KDMnuJt/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 23: CƠM CHIÊN TRÁI THƠM",
+            url: "https://drive.google.com/file/d/1puhouiSL5JK5KSADoAxp_k5A9Llc7wjj/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 24: TÔM SỐNG",
+            url: "https://drive.google.com/file/d/1dbTztSImXH9sNrbm71csNdKeWU1JXIlF/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 25: TÔM SỐNG",
+            url: "https://drive.google.com/file/d/1S7anEXjRDf-DUZRrMsz9N-dZw4a2VbGS/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 26: BA CHỈ CUỘN NẤM KIM CHÂM",
+            url: "https://drive.google.com/file/d/16eJgD9XAov9dOTyKOOEC47KAbmx5YgVe/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 27: BA CHỈ CUỘN NẤM KIM CHÂM",
+            url: "https://drive.google.com/file/d/1HuluO-dwNg8jSArMUomXD5LRaVUVnSIg/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 28: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1a-zBnAcsNNtokfR224OnieyPz5JWNxLg/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 29: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1rm6BdKVRQv0ElQKu0JOy4cSAfBaCroXF/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 30: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1pAsz5yaLuCmy24PkNc6QwMG3BSTx_Fzj/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 31: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1N4oOlDrz1ynixApFQaHWw2n5oOUFTyG-/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 32: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1EFsL6AUpQTVwNMsxJqN7iye2I4zlCWw8/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 33: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/18AehUM2vx1T7gNQ7Hl_S4FMwGNOzkQum/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 34: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1THXM8m_KM_68EM_0QXRRXPOZFddOrLNT/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 35: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1404G5SSBuPcqfFbyhtFOpIi_X-c-7iQ7/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 36: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1VWajKYSRV8-h_jrrwhsvuVHhepa-lfGZ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 37: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1PkjnzEBayX7NWUV-gTUqtg_O74R--Dbn/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 38: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1ZZoxgnPONRB5UTydCQWQliTTtrNZgAI6/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 39: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1Z8cEXkfPYgv6zLIMZugrulKR15AsQRWo/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 40: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1fyRtxqvS8ZLqXVJjmGCacnNAfJqo7gRl/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 41: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1N9VUjwBm-eFTSPGyVWDT6CdCLYLj9mvC/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 42: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/19lsE6vy6XvrOEo5CqEcvhfs4vCLL_40D/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 43: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1SSZuNaKemds9kd4RdNdTthZ83OzoSf1V/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 44: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/10QAfvVe5xq1bAK9PwksgfpBrMsXevmlm/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 45: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1Zxql8poFCDq6ls1Da7CrhY9DqQHBoeaI/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 46: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1_pDmNRBm5ULeGN5f0nmmeZrEHI-zqQud/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 47: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1DfAZ76bkNzu1BgF2bHA-j51iVbTm9L4s/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 48: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/18AaWfjSOdxBA3autkjUqj1AvvmV-uu1b/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 49: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1BE6twUDJi-LkGacLqvNJd6vCem4OxYKp/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 50: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1JEfCwZlNYO5MQQhffX9VRK8ttmlIJScH/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 51: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1IsRJJHHeYwsmt4pfogGDqveb58bem9ai/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 52: CÁC MÓN NƯỚC",
+            url: "https://drive.google.com/file/d/1LDHmPqj5aOULZK-Mda7NrhI0iWpuE4T-/view?usp=sharing"
+          }
+        ]
+      },
+      {
+        id: 10,
+        title: "Chụp Ảnh Menu Đồ Uống & Bánh Ngọt — Kind's Coffee & Bakery",
+        category: "photo",
+        brandName: "Dự Án Hình Ảnh • Kind's Coffee & Bakery",
+        role: "Food & Beverage Photographer",
+        thumbnail: "https://drive.google.com/file/d/1q_kcKGtcNiqEsIPV4b3PlSVd9u-SSg3S/view?usp=sharing",
+        gear: "Sony A7 Mark V • 24-70mm GM II • Studio Lighting & Photoshop",
+        description: "Bộ ảnh chụp menu cà phê, trà trái cây, đá xay và các dòng bánh ngọt thủ công (Bakery) cho Kind's Coffee & Bakery với phong cách ánh sáng tự nhiên, tinh tế.",
+        photos: [
+          {
+            caption: "Ảnh 01: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1YBFkjT0tygD314M2NU5gVAKDdHpbR1El/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 02: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1zawEEjppcDupUjvpyTpb5PQBvPVXV-4j/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 03: MENU BÁNH",
+            url: "https://drive.google.com/file/d/19T17mr2rlg-8tkE74TBDjheZbA_qgOfF/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 04: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1gLrYTbEtgAqseIf8f8vWakb2CtO1_xIC/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 05: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1snwVqGOz0FOwDIonTd6HfrslpyRHJUif/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 06: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1wel6DlE2Pjag8N0xEpzMHJlh5NdsVeVp/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 07: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1H2Otin2r0mcYItk5iMfY8wF7KVcxS_XQ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 08: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1GLAsmFofxLbyftBdCvghY7naTtRv8azO/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 09: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1gZyD12t302Le66fC4U45F1gKFmTXnKEF/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 10: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1QMZsT1lvl9xySF02GPh2T_g_y2PCJFKs/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 11: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1sgjX1zfDfqtfInnyQH_BH-7VC3ZnCf4x/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 12: MENU BÁNH",
+            url: "https://drive.google.com/file/d/119rISITgeG50LvlbtlGOxVQaSeVBZFia/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 13: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1cpopwasyXH97okLTAbAuCLj2zFJrE7zR/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 14: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1Q1x-XOy7eUe66KnpCibmb10TIeAVzZ6F/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 15: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1dZXhHAlmQONsznVjuDOk6I2upfw7o5UG/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 16: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1bnhxL85x_Xl_Uk2M7lj5WnlYSi_fnyNp/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 17: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1wZRhJdQQjc1fDQJefxL_EJqO4AsQpxGx/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 18: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1N__y4KmlTomTQjVbc0JZsMA7ejEdzffj/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 19: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1p-lAh95OB4ii8_KRWRhPyWliW182GLLb/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 20: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1gj_ybD6AsCQ9_KyU_Z3nzBqRCPTmOceI/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 21: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1vZiCU9xUCmyq4lFw1Ui6tTlBVyp8FzuT/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 22: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1Wj15ZDAaeFOt2N0-htrYCz7VjueNvbdj/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 23: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1M9Tj1mCN3I_9-gSw29AHQpf5ETDY0na-/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 24: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1lVFzc5Ojxwsv0J075IDeLcerX6vOHSQZ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 25: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1Q9Csaroz6by4bsLOoZhzcJuEYPELk1mz/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 26: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1nWBvY4G7OJFvtoByGrK8CkDEIM8OetwD/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 27: MENU BÁNH",
+            url: "https://drive.google.com/file/d/11cM8LLrWr13ZNiMEV1QWegjD62-xPh4w/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 28: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1AvIMFHk2n95-UB8o1e1_vjOGM62uChLE/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 29: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1ADu18_F_tTg_nwgYUhSKeCMTB90J7CkM/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 30: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1T1qY22YNj6dJSTSF51cGqEDXtLDyOJUE/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 31: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1yVGUBXdJSTaQwXfedETosR6_0ir0aFUl/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 32: MENU BÁNH",
+            url: "https://drive.google.com/file/d/171xVK5QugfSJoI9oA3Mh97pNlYlpEh9w/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 33: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1KJXeBVX0ePiqXbzp5RlTMqCiXpU5j-J9/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 34: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1IUqN8T462UQUZMZl1r1nOv2Faa5SyQ7M/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 35: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1vQ_2LlQmKlNP9IztHmv-YFEHqpeR1QDP/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 36: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1EvBcAoOtWNMCJlTLve-UJGlWmV5jMP1k/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 37: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1RcdFs1eq1jat67xByXXbTcVbTGG4G18x/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 38: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1xZvJp3v5n7N2Kv25Y5nQTy25_pzmQHMk/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 39: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1NjJ43O59Z3Sk6JMxVB3soirbig_2mmUy/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 40: MENU BÁNH",
+            url: "https://drive.google.com/file/d/1ZhwyGGSfl88173nV3f1ZGgTBDOll7SeQ/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 41: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1IewFVVmtTIN-JW0DzNTVFRPZditeInwu/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 42: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1E6tJRyKR3Fj2kYq5TjhnnRKMy1cTcKMb/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 43: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1RpE4qadh7fvDd7GRYb1pM2F6rbol73tt/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 44: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/15wfITNq1_ht7vxoHlHLPrna7v01v42cz/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 45: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1DwEDvys60h9jN5ii5KJAqS2xg9P9z_eS/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 46: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1RVuvgpe8iuTiaT0nanIN80gQVmP64To3/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 47: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/14efZC5p84stZIUoaPZxxey5KlM6l0SWz/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 48: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1-Ey87SRSigVlHNVVNCjKqrAlIAWSaExj/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 49: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1RBAS_I1Lg07jvKtZYH4eNGXYTlrhXjrS/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 50: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1Gvwb5XDx-Q-CdJ-FJkw_nGeNuNyGlktS/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 51: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1CnCNZLzT4bBcisC2pdar9JzzqnNf8Ygm/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 52: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1wQf7cJbt-sYXoRCFooo6J86EC5d776F5/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 53: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1rJOo_oqfd_-dkEUBPfRj92Fav0Q5oJ6u/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 54: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1-NTIV2meNnXpmq0psShrTKIKKwPPaX6K/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 55: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1BQh1paTxw53zZ81s1vxCwsEIT3q5ZAlC/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 56: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1SQm9aiI0sv8DUYphNA2U3mhJy84YhQg4/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 57: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/15j_NApqgdeKU0uTiLZi2ydZs3OGnc15W/view?usp=sharing"
+          },
+          {
+            caption: "Ảnh 58: MENU NƯỚC",
+            url: "https://drive.google.com/file/d/1KEjcp8wxDCrT0iU0iyjbcWnYdaw-1VqN/view?usp=sharing"
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // === BỘ XỬ LÝ TỰ ĐỘNG LINK GOOGLE DRIVE, PLAYLIST VIDEO & PHOTO GALLERY ===
+    // =========================================================================
+
+    function formatDriveUrl(url, type = 'image') {
+      if (!url) return "";
+      const driveMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (driveMatch && driveMatch[1]) {
+        const fileId = driveMatch[1];
+        if (type === 'image') {
+          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1920`;
+        } else if (type === 'video') {
+          return `https://drive.google.com/file/d/${fileId}/preview`;
+        }
+      }
+      return url;
+    }
+
+    lucide.createIcons();
+
+    const projectsGrid = document.getElementById('projects-grid');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    function renderProjects(filter = 'all') {
+      projectsGrid.innerHTML = '';
+      const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+
+      filtered.forEach(project => {
+        const isPhotoProject = project.category === 'photo' || (project.photos && project.photos.length > 0);
+        const itemCount = isPhotoProject ? project.photos.length : (project.videos ? project.videos.length : 1);
+        const countBadgeText = isPhotoProject ? `${itemCount} ảnh` : `${itemCount} video`;
+        const formattedThumb = formatDriveUrl(project.thumbnail, 'image');
+
+        const card = document.createElement('div');
+        card.className = 'bento-card rounded-3xl overflow-hidden group cursor-pointer flex flex-col';
+        card.onclick = () => openProjectModal(project);
+
+        card.innerHTML = `
+          <div class="relative aspect-video overflow-hidden bg-surface">
+            <img src="${formattedThumb}" alt="${project.title}" loading="lazy"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+            
+            <!-- Badge Thương hiệu / Danh mục -->
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full ${isPhotoProject ? 'bg-emerald-500/20 border-emerald-400/30 text-emerald-300' : 'bg-black/75 border-white/10 text-white'} backdrop-blur-md border text-xs font-semibold">
+              ${project.brandName}
+            </span>
+
+            <!-- Badge số lượng video hoặc ảnh -->
+            <span class="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[11px] font-medium text-zinc-200 flex items-center gap-1">
+              <i data-lucide="${isPhotoProject ? 'images' : 'layers'}" class="w-3 h-3 text-cinema"></i>
+              ${countBadgeText}
+            </span>
+
+            <!-- Nút Play hoặc Gallery -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-12 h-12 rounded-full ${isPhotoProject ? 'bg-emerald-400' : 'bg-cinema-gradient'} text-black flex items-center justify-center shadow-lg scale-90 opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all">
+                <i data-lucide="${isPhotoProject ? 'camera' : 'play'}" class="w-5 h-5 ${isPhotoProject ? '' : 'fill-black ml-0.5'}"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-xs ${isPhotoProject ? 'text-emerald-400' : 'text-cinema'} font-medium mb-1.5">${project.role}</div>
+              <h3 class="font-display font-bold text-lg text-white group-hover:text-cinema transition-colors line-clamp-2">
+                ${project.title}
+              </h3>
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400">
+              <span class="truncate">${project.gear}</span>
+              <span class="text-white font-medium shrink-0 ml-2 group-hover:translate-x-1 transition-transform">
+                ${isPhotoProject ? 'Xem bộ ảnh →' : 'Xem chuỗi video →'}
+              </span>
+            </div>
+          </div>
+        `;
+        projectsGrid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Xử lý chuyển tab filter
+    function applyFilter(filterValue) {
+      filterButtons.forEach(b => {
+        const isPhotoTab = b.dataset.filter === 'photo';
+        b.classList.remove('bg-white', 'text-black', 'active', 'bg-emerald-400');
+        if (isPhotoTab) {
+          b.classList.add('bg-emerald-500/15', 'text-emerald-400');
+        } else {
+          b.classList.add('bg-surface', 'text-zinc-300');
+        }
+
+        if (b.dataset.filter === filterValue) {
+          if (isPhotoTab) {
+            b.classList.remove('bg-emerald-500/15', 'text-emerald-400');
+            b.classList.add('bg-emerald-400', 'text-black', 'active');
+          } else {
+            b.classList.remove('bg-surface', 'text-zinc-300');
+            b.classList.add('bg-white', 'text-black', 'active');
+          }
+        }
+      });
+      renderProjects(filterValue);
+    }
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyFilter(btn.dataset.filter);
+      });
+    });
+
+    function scrollToProjects(category) {
+      applyFilter(category);
+      const section = document.getElementById('projects');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // ================= MODAL MULTI-VIDEO & PHOTO GALLERY =================
+    const modal = document.getElementById('project-modal');
+    const modalMedia = document.getElementById('modal-media');
+    const modalSubItems = document.getElementById('modal-sub-items');
+    let currentProjectData = null;
+    let currentMediaIndex = 0;
+
+    function playVideoInModal(index) {
+      if (!currentProjectData || !currentProjectData.videos) return;
+      currentMediaIndex = index;
+      const videoObj = currentProjectData.videos[index];
+      const formattedVideo = formatDriveUrl(videoObj.url, 'video');
+
+      modalMedia.innerHTML = `<iframe class="w-full h-full" src="${formattedVideo}" title="${videoObj.title}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+
+      // Cập nhật trạng thái nút chọn video trong playlist
+      const btns = modalSubItems.querySelectorAll('.video-playlist-btn');
+      btns.forEach((btn, idx) => {
+        if (idx === index) {
+          btn.classList.remove('bg-surface', 'text-zinc-300', 'border-white/10');
+          btn.classList.add('bg-cinema', 'text-black', 'font-bold', 'border-cinema');
+        } else {
+          btn.classList.remove('bg-cinema', 'text-black', 'font-bold', 'border-cinema');
+          btn.classList.add('bg-surface', 'text-zinc-300', 'border-white/10');
+        }
+      });
+    }
+
+    function showPhotoInModal(index) {
+      if (!currentProjectData || !currentProjectData.photos) return;
+      const total = currentProjectData.photos.length;
+      currentMediaIndex = (index + total) % total;
+      const photoObj = currentProjectData.photos[currentMediaIndex];
+      const formattedImg = formatDriveUrl(photoObj.url, 'image');
+
+      modalMedia.innerHTML = `
+        <div class="relative w-full h-full flex items-center justify-center bg-black group/viewer">
+          <img src="${formattedImg}" alt="${photoObj.caption || currentProjectData.title}" class="max-h-full max-w-full object-contain" />
+          
+          ${total > 1 ? `
+            <button onclick="showPhotoInModal(${currentMediaIndex - 1})" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-cinema text-white flex items-center justify-center border border-white/15 transition-colors">
+              <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <button onclick="showPhotoInModal(${currentMediaIndex + 1})" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-cinema text-white flex items-center justify-center border border-white/15 transition-colors">
+              <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+          ` : ''}
+
+          <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between gap-3 px-4 py-2 rounded-xl bg-black/75 backdrop-blur-md border border-white/10 text-xs text-zinc-200">
+            <span class="truncate">${photoObj.caption || ''}</span>
+            <span class="text-emerald-400 font-semibold shrink-0">${currentMediaIndex + 1} / ${total}</span>
+          </div>
+        </div>
+      `;
+
+      // Highlight thumbnail đang xem
+      const thumbs = modalSubItems.querySelectorAll('.photo-thumb-btn');
+      thumbs.forEach((t, idx) => {
+        if (idx === currentMediaIndex) {
+          t.classList.add('ring-2', 'ring-emerald-400', 'opacity-100');
+          t.classList.remove('opacity-50');
+        } else {
+          t.classList.remove('ring-2', 'ring-emerald-400', 'opacity-100');
+          t.classList.add('opacity-50');
+        }
+      });
+
+      lucide.createIcons();
+    }
+
+    function openProjectModal(project) {
+      currentProjectData = project;
+      currentMediaIndex = 0;
+
+      document.getElementById('modal-title').textContent = project.title;
+      document.getElementById('modal-category').textContent = project.brandName;
+      document.getElementById('modal-gear').textContent = project.gear;
+      document.getElementById('modal-desc').textContent = project.description;
+
+      const isPhotoProject = project.category === 'photo' || (project.photos && project.photos.length > 0);
+
+      if (isPhotoProject) {
+        // Render thanh thumbnail nhiều ảnh bên dưới
+        if (project.photos.length > 1) {
+          modalSubItems.classList.remove('hidden');
+          modalSubItems.innerHTML = `
+            <div class="text-xs text-zinc-400 mb-2 font-medium">Danh sách ảnh trong bộ sưu tập (${project.photos.length} ảnh):</div>
+            <div class="flex gap-2.5 overflow-x-auto pb-2">
+              ${project.photos.map((p, idx) => `
+                <button onclick="showPhotoInModal(${idx})" class="photo-thumb-btn shrink-0 w-20 h-14 rounded-lg overflow-hidden border border-white/10 transition-all ${idx === 0 ? 'ring-2 ring-emerald-400 opacity-100' : 'opacity-50 hover:opacity-80'}">
+                  <img src="${formatDriveUrl(p.url, 'image')}" class="w-full h-full object-cover" />
+                </button>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          modalSubItems.classList.add('hidden');
+          modalSubItems.innerHTML = '';
+        }
+        showPhotoInModal(0);
+      } else {
+        // Render danh sách nhiều video (Playlist) của thương hiệu
+        const videoList = project.videos && project.videos.length > 0 
+          ? project.videos 
+          : [{ title: project.title, url: project.videoUrl }];
+
+        if (videoList.length > 1) {
+          modalSubItems.classList.remove('hidden');
+          modalSubItems.innerHTML = `
+            <div class="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-1.5">
+              <i data-lucide="list-video" class="w-3.5 h-3.5 text-cinema shrink-0"></i>
+              <span>Chọn video (${videoList.length} video):</span>
+            </div>
+            <div class="flex sm:flex-wrap gap-2 overflow-x-auto pb-2">
+              ${videoList.map((v, idx) => `
+                <button onclick="playVideoInModal(${idx})" class="video-playlist-btn shrink-0 px-3.5 py-2 rounded-xl text-xs border transition-all flex items-center gap-2 ${idx === 0 ? 'bg-cinema text-black font-bold border-cinema' : 'bg-surface text-zinc-300 border-white/10 hover:border-white/30'}">
+                  <i data-lucide="play-circle" class="w-3.5 h-3.5 shrink-0"></i>
+                  <span>${v.title}</span>
+                </button>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          modalSubItems.classList.add('hidden');
+          modalSubItems.innerHTML = '';
+        }
+
+        currentProjectData.videos = videoList;
+        playVideoInModal(0);
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    }
+
+    function openShowreelModal() {
+      openProjectModal({
+        title: "Showreel 2026 — Long Nguyen Visual & Media",
+        brandName: "Official Showreel",
+        gear: "Sony A7 Mark V • 24-70mm & 70-200mm SIGMA • DJI Ronin RS4 Pro",
+        videos: [{ title: "Showreel 2026", url: showreelUrl }],
+        description: "Tổng hợp những khung hình nổi bật nhất từ các dự án TVC, video review thương mại và sự kiện thực hiện trong năm."
+      });
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modalMedia.innerHTML = '';
+      modalSubItems.innerHTML = '';
+      modalSubItems.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+    });
+
+    // Mobile Menu & Accordion Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.add('hidden');
+    }
+
+    function toggleMobileSubmenu(subId, iconId) {
+      const sub = document.getElementById(subId);
+      const icon = document.getElementById(iconId);
+      if (sub) sub.classList.toggle('hidden');
+      if (icon) icon.classList.toggle('rotate-180');
+    }
+
+    // Render lần đầu
+    renderProjects('all');
+  </script>
+</body>
+</html>
