@@ -514,7 +514,7 @@
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
 
-      <div id="modal-media" class="aspect-video max-h-[45vh] sm:max-h-[60vh] w-full bg-black flex items-center justify-center relative clear-both"></div>
+      <div id="modal-media" class="aspect-video w-full max-h-[38vh] sm:max-h-[60vh] bg-black flex items-center justify-center relative clear-both"></div>
 
       <div id="modal-sub-items" class="hidden px-4 sm:px-6 pt-3 pb-2 bg-obsidian/90 border-b border-white/10"></div>
 
@@ -1596,9 +1596,23 @@
       const videoObj = currentProjectData.videos[index];
       const formattedVideo = formatDriveUrl(videoObj.url, 'video');
 
-      modalMedia.innerHTML = `<iframe class="w-full h-full" src="${formattedVideo}" title="${videoObj.title}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+      modalMedia.innerHTML = `
+        <div class="w-full h-full flex flex-col bg-black">
+          <iframe id="drive-video-frame" class="w-full flex-1 min-h-0" src="${formattedVideo}" title="${videoObj.title}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          <div class="px-3 py-2 bg-obsidian/95 border-t border-white/10 flex items-center justify-between gap-2 text-xs">
+            <span class="text-zinc-300 font-medium truncate">${videoObj.title}</span>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" onclick="fullscreenVideoFrame()" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition-colors">
+                Phóng to
+              </button>
+              <a href="${videoObj.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg bg-cinema/20 hover:bg-cinema hover:text-black text-cinema font-medium transition-colors">
+                Drive ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
 
-      // Cập nhật trạng thái nút chọn video trong playlist
       const btns = modalSubItems.querySelectorAll('.video-playlist-btn');
       btns.forEach((btn, idx) => {
         if (idx === index) {
@@ -1609,6 +1623,16 @@
           btn.classList.add('bg-surface', 'text-zinc-300', 'border-white/10');
         }
       });
+    }
+
+    function fullscreenVideoFrame() {
+      const frame = document.getElementById('drive-video-frame');
+      if (!frame) return;
+      if (frame.requestFullscreen) {
+        frame.requestFullscreen().catch(() => {});
+      } else if (frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+      }
     }
 
     function showPhotoInModal(index) {
@@ -1694,9 +1718,9 @@
           modalSubItems.innerHTML = `
             <div class="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-1.5">
               <i data-lucide="list-video" class="w-3.5 h-3.5 text-cinema shrink-0"></i>
-              <span>Chọn video (${videoList.length} video):</span>
+              <span>Chọn video (${videoList.length} video) — vuốt ngang để xem thêm:</span>
             </div>
-            <div class="flex sm:flex-wrap gap-2 overflow-x-auto pb-2">
+            <div class="flex gap-2 overflow-x-auto pb-2">
               ${videoList.map((v, idx) => `
                 <button onclick="playVideoInModal(${idx})" class="video-playlist-btn shrink-0 px-3.5 py-2 rounded-xl text-xs border transition-all flex items-center gap-2 ${idx === 0 ? 'bg-cinema text-black font-bold border-cinema' : 'bg-surface text-zinc-300 border-white/10 hover:border-white/30'}">
                   <i data-lucide="play-circle" class="w-3.5 h-3.5 shrink-0"></i>
